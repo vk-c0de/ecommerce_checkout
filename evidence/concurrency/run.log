@@ -1,0 +1,194 @@
+--- concurrency run ---
+Inventory reset: 200 {'product_id': 'prod-1', 'quantity': 10, 'status': 'updated'}
+Running inventory concurrency demo against prod-1 with initial stock 10
+Successful reservations: 10
+Rejected reservations: 10
+[
+  {
+    "status": 200,
+    "body": {
+      "reservation_id": "ff9fd9ef2ca34c1f8affa930ef4afb17",
+      "product_id": "prod-1",
+      "quantity": 1,
+      "remaining_quantity": 9,
+      "status": "reserved"
+    }
+  },
+  {
+    "status": 409,
+    "body": {
+      "detail": "Insufficient stock"
+    }
+  },
+  {
+    "status": 200,
+    "body": {
+      "reservation_id": "f27816ed500248bcaf4b806f1efce156",
+      "product_id": "prod-1",
+      "quantity": 1,
+      "remaining_quantity": 7,
+      "status": "reserved"
+    }
+  },
+  {
+    "status": 200,
+    "body": {
+      "reservation_id": "a531d8974ed44787ac284ab997653c38",
+      "product_id": "prod-1",
+      "quantity": 1,
+      "remaining_quantity": 8,
+      "status": "reserved"
+    }
+  },
+  {
+    "status": 200,
+    "body": {
+      "reservation_id": "1c98d08c245a4e8e9886fc469168b14f",
+      "product_id": "prod-1",
+      "quantity": 1,
+      "remaining_quantity": 4,
+      "status": "reserved"
+    }
+  },
+  {
+    "status": 200,
+    "body": {
+      "reservation_id": "51a4f6d953314823919708fe1be2bdfa",
+      "product_id": "prod-1",
+      "quantity": 1,
+      "remaining_quantity": 3,
+      "status": "reserved"
+    }
+  },
+  {
+    "status": 200,
+    "body": {
+      "reservation_id": "5de95e7f72a645439d1fff715051ecc4",
+      "product_id": "prod-1",
+      "quantity": 1,
+      "remaining_quantity": 0,
+      "status": "reserved"
+    }
+  },
+  {
+    "status": 409,
+    "body": {
+      "detail": "Insufficient stock"
+    }
+  },
+  {
+    "status": 409,
+    "body": {
+      "detail": "Insufficient stock"
+    }
+  },
+  {
+    "status": 409,
+    "body": {
+      "detail": "Insufficient stock"
+    }
+  },
+  {
+    "status": 200,
+    "body": {
+      "reservation_id": "511e7cc10f5a4e548f8ebf1a41c3c1fd",
+      "product_id": "prod-1",
+      "quantity": 1,
+      "remaining_quantity": 5,
+      "status": "reserved"
+    }
+  },
+  {
+    "status": 200,
+    "body": {
+      "reservation_id": "4bfccea863aa48b4b0b9bbd0f959fbd0",
+      "product_id": "prod-1",
+      "quantity": 1,
+      "remaining_quantity": 6,
+      "status": "reserved"
+    }
+  },
+  {
+    "status": 409,
+    "body": {
+      "detail": "Insufficient stock"
+    }
+  },
+  {
+    "status": 200,
+    "body": {
+      "reservation_id": "a7a03c81ef5d4ceda804bf43620b0979",
+      "product_id": "prod-1",
+      "quantity": 1,
+      "remaining_quantity": 1,
+      "status": "reserved"
+    }
+  },
+  {
+    "status": 409,
+    "body": {
+      "detail": "Insufficient stock"
+    }
+  },
+  {
+    "status": 409,
+    "body": {
+      "detail": "Insufficient stock"
+    }
+  },
+  {
+    "status": 200,
+    "body": {
+      "reservation_id": "1d7f640583e84a7bb1f46b97dfb8d3c2",
+      "product_id": "prod-1",
+      "quantity": 1,
+      "remaining_quantity": 2,
+      "status": "reserved"
+    }
+  },
+  {
+    "status": 409,
+    "body": {
+      "detail": "Insufficient stock"
+    }
+  },
+  {
+    "status": 409,
+    "body": {
+      "detail": "Insufficient stock"
+    }
+  },
+  {
+    "status": 409,
+    "body": {
+      "detail": "Insufficient stock"
+    }
+  }
+]
+
+--- idempotency run ---
+First call: 200 {'payment_id': 'df21017bba2a49458865d51d7cf030bb', 'order_id': 'demo-order-1', 'amount': 119.48, 'status': 'paid', 'idempotency_key': 'same-key-123'}
+Second call: 200 {'payment_id': 'df21017bba2a49458865d51d7cf030bb', 'order_id': 'demo-order-1', 'amount': 119.48, 'status': 'paid', 'idempotency_key': 'same-key-123'}
+Different payload with same key: 409 {'detail': 'Idempotency key reused with different payload'}
+{
+  "first": {
+    "payment_id": "df21017bba2a49458865d51d7cf030bb",
+    "order_id": "demo-order-1",
+    "amount": 119.48,
+    "status": "paid",
+    "idempotency_key": "same-key-123"
+  },
+  "second": {
+    "payment_id": "df21017bba2a49458865d51d7cf030bb",
+    "order_id": "demo-order-1",
+    "amount": 119.48,
+    "status": "paid",
+    "idempotency_key": "same-key-123"
+  },
+  "different_payload": {
+    "detail": "Idempotency key reused with different payload"
+  }
+}
+
+--- main flow run ---
+{"order_id":"4bed6986bc944abc86eed9be54596c50","customer_id":"customer-3","status":"paid","total_amount":49.99,"payment_id":"fa2e9a1f9b7744e58eb40b3303ba71cb","notification_status":200,"items":[{"product_id":"prod-4","quantity":1,"unit_price":49.99,"total_price":49.99}]}

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification
+  namespace: ecommerce-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification
+  template:
+    metadata:
+      labels:
+        app: notification
+    spec:
+      containers:
+        - name: notification
+          image: ecommerce/notification:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DATABASE_PATH
+              value: "/data/notification.db"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification
+  namespace: ecommerce-demo
+spec:
+  selector:
+    app: notification
+  ports:
+    - port: 8000
+      targetPort: 8000
+      protocol: TCP

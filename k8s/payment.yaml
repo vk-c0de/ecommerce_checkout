@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment
+  namespace: ecommerce-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment
+  template:
+    metadata:
+      labels:
+        app: payment
+    spec:
+      containers:
+        - name: payment
+          image: ecommerce/payment:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DATABASE_PATH
+              value: "/data/payment.db"
+            - name: PAYMENT_FAILURE_RATE
+              value: "0"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment
+  namespace: ecommerce-demo
+spec:
+  selector:
+    app: payment
+  ports:
+    - port: 8000
+      targetPort: 8000
+      protocol: TCP

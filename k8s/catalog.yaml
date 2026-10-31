@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog
+  namespace: ecommerce-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog
+  template:
+    metadata:
+      labels:
+        app: catalog
+    spec:
+      containers:
+        - name: catalog
+          image: ecommerce/catalog:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DATABASE_PATH
+              value: "/data/catalog.db"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog
+  namespace: ecommerce-demo
+spec:
+  selector:
+    app: catalog
+  ports:
+    - port: 8000
+      targetPort: 8000
+      protocol: TCP

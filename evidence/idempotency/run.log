@@ -1,0 +1,22 @@
+First call: 200 {'payment_id': 'df21017bba2a49458865d51d7cf030bb', 'order_id': 'demo-order-1', 'amount': 119.48, 'status': 'paid', 'idempotency_key': 'same-key-123'}
+Second call: 200 {'payment_id': 'df21017bba2a49458865d51d7cf030bb', 'order_id': 'demo-order-1', 'amount': 119.48, 'status': 'paid', 'idempotency_key': 'same-key-123'}
+Different payload with same key: 409 {'detail': 'Idempotency key reused with different payload'}
+{
+  "first": {
+    "payment_id": "df21017bba2a49458865d51d7cf030bb",
+    "order_id": "demo-order-1",
+    "amount": 119.48,
+    "status": "paid",
+    "idempotency_key": "same-key-123"
+  },
+  "second": {
+    "payment_id": "df21017bba2a49458865d51d7cf030bb",
+    "order_id": "demo-order-1",
+    "amount": 119.48,
+    "status": "paid",
+    "idempotency_key": "same-key-123"
+  },
+  "different_payload": {
+    "detail": "Idempotency key reused with different payload"
+  }
+}

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory
+  namespace: ecommerce-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inventory
+  template:
+    metadata:
+      labels:
+        app: inventory
+    spec:
+      containers:
+        - name: inventory
+          image: ecommerce/inventory:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DATABASE_PATH
+              value: "/data/inventory.db"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory
+  namespace: ecommerce-demo
+spec:
+  selector:
+    app: inventory
+  ports:
+    - port: 8000
+      targetPort: 8000
+      protocol: TCP
