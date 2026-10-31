@@ -22,7 +22,7 @@ It is designed for the WILP Scalable Services assignment and demonstrates:
 ## Run locally with Docker Compose
 
 ```bash
-cd /home/vijay/Desktop/bits/ecommerce_checkout
+cd ecommerce_checkout
 docker compose up --build
 ```
 
@@ -56,7 +56,7 @@ curl -X POST http://localhost:8003/api/v1/orders \
 Each service can also be started with uvicorn:
 
 ```bash
-cd /home/vijay/Desktop/bits/ecommerce_checkout/services/catalog
+cd ecommerce_checkout/services/catalog
 python3 -m pip install -r requirements.txt
 uvicorn main:app --host 0.0.0.0 --port 8001
 ```
@@ -64,7 +64,7 @@ uvicorn main:app --host 0.0.0.0 --port 8001
 ## Evidence and challenge scripts
 
 ```bash
-cd /home/vijay/Desktop/bits/ecommerce_checkout
+cd ecommerce_checkout
 python3 scripts/concurrency_demo.py
 python3 scripts/idempotency_demo.py
 ```
